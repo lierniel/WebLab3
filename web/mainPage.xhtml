@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a = "http://xmlns.jcp.org/jsf/passthrough">
+
+<h:head>
+    <title>Lab3</title>
+    <h:outputStylesheet library="css" name="mainPage.css"/>
+    <h:outputScript library="js" name="mainPage.js"/>
+</h:head>
+
+<h:body>
+
+    <h:panelGroup id="header" layout="block">
+        <h:link id="back-link" outcome="startPage" value="Back"/>
+    </h:panelGroup>
+
+    <h:form id="form" styleClass="horizontal-item">
+        <h:panelGroup id="x-input" layout="block" styleClass="form-item form-element">
+            <h:outputLabel for="x" value="X: "/>
+            <h:inputText id="x" value="#{user.x}"  styleClass="form-item x" readonly="#{facesContext.renderResponse}"/>
+            <p:slider id="slider"
+                      widgetVar="slider"
+                      for="x"
+                      style="left: 50%;margin-left: -150px;width: 300px;"
+                      minValue="-5.0"
+                      maxValue="5.0"
+                      step="0.1"
+                      onSlide="onSliderMove(event, ui)"/>
+        </h:panelGroup>
+
+        <h:panelGroup id="y-input" layout="block" styleClass="form-item form-element">
+            <h:outputLabel for="y" value="Input Y: " styleClass="form-item"/>
+            <p:inputText id="y"
+                         styleClass="form-item"
+                         size="4"
+                         required="true"
+                         requiredMessage="Y value is required"
+                         validatorMessage="Y value is out of range"
+                         converterMessage="Y value is not a number"
+                         value="#{user.y}">
+                <f:validateDoubleRange minimum="-3.0" maximum="5.0"/>
+            </p:inputText>
+            <h:outputLabel for="y" value=" &#8712; [-3;5]" styleClass="form-item"/>
+            <h:panelGroup id="error-container" layout="block" styleClass="error-container">
+                <h:message id="error-message" for="y" styleClass="form-item error"/>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <h:panelGroup id="r-input" layout="block" styleClass="form-item form-element">
+            <h:outputText value="Select R:"/>
+            <h:panelGroup id="r-options" styleClass="r-options" layout="block">
+                <p:commandLink styleClass="r-option" value="1.0"/>
+                <p:commandLink styleClass="r-option" value="1.5"/>
+                <p:commandLink styleClass="r-option" value="2.0"/>
+                <p:commandLink styleClass="r-option" value="2.5"/>
+                <p:commandLink styleClass="r-option" value="3.0"/>
+                <h:inputHidden id="r" value="#{user.r}"/>
+            </h:panelGroup>
+        </h:panelGroup>
+
+        <h:commandButton id="check" styleClass="check-button form-item form-element my-button" value="Check" action="#{user.check}">
+            <f:ajax execute="@form" render="@form :result-table" onevent="refresh"/>
+        </h:commandButton>
+
+    </h:form>
+
+    <svg width="480" class="svg-graphic" id="graphic" viewBox="0 0 300 300" xmlns="http://www.w3.org/2000/svg">
+        <!-- Стрелочки-->
+        <line  x1="0" x2="300" y1="150" y2="150" stroke="black"/>
+        <line x1="150" x2="150" y1="0" y2="300" stroke="black"/>
+        <polygon points="150,0 144,15 156,15" stroke="black"/>
+        <polygon points="300,150 285,156 285,144" stroke="black"/>
+
+        <!-- Палочки-->
+        <line class="coordinate-line" x1="200" x2="200" y1="155" y2="145" stroke="black"/>
+        <line class="coordinate-line" x1="250" x2="250" y1="155" y2="145" stroke="black"/>
+
+        <line class="coordinate-line" x1="50" x2="50" y1="155" y2="145" stroke="black"/>
+        <line class="coordinate-line" x1="100" x2="100" y1="155" y2="145" stroke="black"/>
+
+        <line class="coordinate-line" x1="145" x2="155" y1="100" y2="100" stroke="black"/>
+        <line class="coordinate-line" x1="145" x2="155" y1="50" y2="50" stroke="black"/>
+
+        <line class="coordinate-line" x1="145" x2="155" y1="200" y2="200" stroke="black"/>
+        <line class="coordinate-line" x1="145" x2="155" y1="250" y2="250" stroke="black"/>
+
+        <!--Буквы-->
+        <text class="coordinate-text horizontal-letter" x="190" y="140">R/2</text>
+        <text class="coordinate-text horizontal-letter" x="246" y="140">R</text>
+
+        <text class="coordinate-text horizontal-letter" x="44" y="140">-R</text>
+        <text class="coordinate-text horizontal-letter" x="85" y="140">-R/2</text>
+
+        <text class="coordinate-text vertical-letter" x="160" y="105">R/2</text>
+        <text class="coordinate-text vertical-letter" x="160" y="55">R</text>
+
+        <text class="coordinate-text vertical-letter" x="115" y="205">-R/2</text>
+        <text class="coordinate-text vertical-letter" x="130" y="255">-R</text>
+
+        <polygon class="svg-figure" points="150,150 150,250 200,250 200,150"
+                 fill="blue" fill-opacity="0.3" stroke="blue"/>
+
+        <path class="svg-figure circle-figure" d="M 200 150 A 50 50, 90, 0, 0, 150 100 L 150 150 Z"
+              fill="green" fill-opacity="0.3" stroke="green"/>
+
+        <polygon class="svg-figure" points="100,150 150,150 150,50" fill="red"
+                 fill-opacity="0.3" stroke="red"/>
+
+        <circle r="3" cx="150" cy="150" id="target-dot" display="none"/>
+        <circle r="3" cx="150" cy="150" fill-opacity="0.3" id="mouse-dot" display="none"/>
+    </svg>
+
+
+    <h:panelGroup id="table-container" layout="block" styleClass="horizontal-item">
+        <h:dataTable id="result-table"
+                     value="#{user.resultList}"
+                     headerClass="header"
+                     rowClasses="result-row"
+                     columnClasses="column"
+                     a:data-last-was-in="#{user.in}"
+                     var="resultRow">
+
+            <h:column a:width="5%">
+                <f:facet name="header">
+                    <h:outputText value="№"/>
+                </f:facet>
+
+                <h:outputText value="#{resultRow.n}"/>
+            </h:column>
+
+            <h:column a:width="45%">
+                <f:facet name="header">
+                    <h:outputText value="Time"/>
+                </f:facet>
+
+                <h:outputText value="#{resultRow.creationDate}">
+                    <f:convertDateTime pattern="dd.MM.yyyy HH:mm:ss"/>
+                </h:outputText>
+            </h:column>
+
+            <h:column a:width="20%" >
+                <f:facet name="header">
+                    <h:outputText value="Result"/>
+                </f:facet>
+
+                <h:outputText value="#{resultRow.result}"/>
+            </h:column>
+
+            <h:column a:width="10%">
+                <f:facet name="header">
+                    <h:outputText value="x"/>
+                </f:facet>
+
+                <h:outputText value="#{resultRow.x}"/>
+            </h:column>
+
+            <h:column a:width="10%">
+                <f:facet name="header">
+                    <h:outputText value="y"/>
+                </f:facet>
+
+                <h:outputText value="#{resultRow.y}"/>
+            </h:column>
+
+            <h:column a:width="10%">
+                <f:facet name="header">
+                    <h:outputText value="r"/>
+                </f:facet>
+
+                <h:outputText value="#{resultRow.r}"/>
+            </h:column>
+
+        </h:dataTable>
+
+        <h:form id="remove-form">
+            <h:commandButton id="removeAll" styleClass="remove-button form-item my-button" value="Remove all" action="#{user.deleteAllResult}">
+                <f:ajax execute="@form" render=":result-table" onevent="refresh"/>
+            </h:commandButton>
+        </h:form>
+    </h:panelGroup>
+
+</h:body>
+
+</html>
