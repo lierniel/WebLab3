@@ -1,0 +1,155 @@
+body{
+    font-family: fantasy;
+    font-size: 32px;
+    margin: 0;
+}
+
+#header{
+    background-color: black;
+    padding: 27px 0 25px 30px;
+    margin-bottom: 40px;
+}
+
+#back-link{
+    color:white;
+    font-size: 38px;
+    border-radius: 10px;
+    transition: 150ms;
+    padding: 10px;
+}
+
+#back-link:hover{
+    color: black;
+    background-color: white;
+    padding-left: 100px;
+}
+
+.horizontal-item{
+    display: inline-block;
+    vertical-align: top;
+    text-align: center;
+}
+
+#form{
+    width: 25%;
+}
+
+.form-element{
+    margin-top: 40px;
+}
+
+.form-item{
+    font-family: fantasy;
+    font-size: 32px;
+    text-align: center;
+}
+
+.r-options{
+    margin-top: 12px;
+}
+
+.x{
+    width: 100px;
+}
+
+.error{
+    color: red;
+}
+
+.error-container{
+    transition: 1000ms;
+}
+
+.r-option{
+    font-family: fantasy;
+    padding: 10px 20px 10px 20px;
+    border-radius: 7px;
+    font-size: 28px;
+    color: black;
+    transition: 200ms ease-out;
+}
+
+.r-option:hover{
+    background-color: rgba(161, 159, 162, 0.59);
+}
+
+.r-option.activeR{
+    background-color: black;
+    color: white;
+    font-size: 32px;
+}
+
+
+.my-button{
+    font-size: 40px;
+    background-color: black;
+    color: white;
+    outline: none;
+    transition: 150ms ease-out;
+}
+
+.my-button:hover{
+    background-color: white;
+    color: black;
+}
+
+.check-button{
+    width: 200px;
+    height: 70px;
+    border-radius: 20px;
+}
+
+.check-button:hover{
+    width: 280px;
+    height: 80px;
+}
+
+#graphic{
+    font-size: 18px;
+    margin-right: 10px;
+}
+
+#target-dot{
+    transition: 130ms;
+}
+
+#table-container{
+    width: 38%;
+}
+
+.header{
+    border-bottom: solid black 3px;
+}
+
+#result-table{
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.result-row{
+    transition: 200ms;
+}
+
+.result-row:hover{
+    color: white;
+    background-color: black;
+}
+
+td, th{
+    border-bottom: solid black 1px;
+    border-right: solid black 1px
+}
+
+#remove-form{
+    text-align: right;
+}
+
+.remove-button{
+    width: 200px;
+    height: 55px;
+    border-radius: 10px;
+}
+
+.remove-button:hover{
+    padding-right: 250px;
+}
